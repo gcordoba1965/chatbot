@@ -1,2 +1,5 @@
-streamlit
+huggingface-hub>=0.24
+transformers
+torch
+streamlit==1.51.0
 openai
