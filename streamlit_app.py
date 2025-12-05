@@ -4,8 +4,8 @@ from huggingface_hub import InferenceClient, whoami
 # -------------------------
 # Page config
 # -------------------------
-st.set_page_config(page_title="Chatbot", page_icon="💬")
-st.title("💬 Hugging Face Chatbot")
+st.set_page_config(page_title="GBC AI", page_icon="💬")
+st.title("💬 GBC Financial Advisor")
 
 # -------------------------
 # Load HF token
@@ -29,7 +29,8 @@ except Exception:
 # Create HF client
 # -------------------------
 client = InferenceClient(
-    model="HuggingFaceH4/zephyr-7b-beta",
+    #model="HuggingFaceH4/zephyr-7b-beta",
+    model="openai/gpt-oss-20b",
     token=HF_TOKEN,
 )
 
@@ -49,7 +50,28 @@ for msg in st.session_state.messages:
 # -------------------------
 # Chat input
 # -------------------------
-if prompt := st.chat_input("Ask something"):
+
+
+# -------------------------
+# SYSTEM PROMPT (50/30/20 RULE)
+# -------------------------
+SYSTEM_PROMPT = """
+I'M GBC AI, a conservative personal finance assistant.
+
+Rules you MUST follow:
+- Always use the 50/30/20 budgeting rule:
+  • 50% Needs
+  • 30% Wants
+  • 20% Savings / Investments
+- Be conservative and realistic
+- Show clear numbers and percentages
+- Use USD
+- No legal or tax advice
+- Give structured, concise answers
+"""
+
+
+if prompt := st.chat_input("Ask about your budget, savings, or expenses"):
     st.session_state.messages.append(
         {"role": "user", "content": prompt}
     )
